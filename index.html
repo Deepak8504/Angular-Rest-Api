@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AngularJs REST Api</title>
+    <style type="text/css">
+        body {
+          font-family: sans-serif;
+          background: #F2DF7E;
+
+        }
+
+        input,table, th , td  {
+          width: auto;
+          margin: auto;
+          margin-top: 10px;
+          border: 1px solid grey;
+          border-collapse: collapse;
+          padding: 5px;
+        }
+        table tr:nth-child(odd) {
+          background-color: #62BF54;
+        }
+        table tr:nth-child(even) {
+          background-color: #ffffff;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  </head>
+  <body>
+    <div ng-app="myApp" ng-controller="PostsCtrl">
+      <input type="search" ng-model="searchBox.$" placeholder="Search" aria-label="Search Name" />
+      <table>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+          </tr>
+          <tr ng-repeat="x in names | filter: searchBox">
+            <td>{{ x.id }}</td>
+            <td>{{ x.name }}</td>
+            <td>{{ x.username }}</td>
+            <td>{{ x.email }}</td>
+          </tr>
+      </table>
+      <table>
+          <tr>
+            <th>Id</th>
+            <th>UserId</th>
+            <th>Title</th>
+          </tr>
+          <tr ng-repeat="y in users | filter: searchBox">
+            <td>{{ y.id }}</td>
+            <td>{{ y.userId }}</td>
+            <td>{{ y.title }}</td>
+          </tr>
+      </table>
+    </div>
+
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller('PostsCtrl', function($scope, $http) {
+            $http.get("https://jsonplaceholder.typicode.com/users")
+            .then(function (response) {$scope.names = response.data;});
+            $http.get("https://jsonplaceholder.typicode.com/posts?userId=1")
+            .then(function (response) {$scope.users = response.data;});
+        });
+
+    </script>
+
+  </body>
+</html>
